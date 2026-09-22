@@ -1,0 +1,292 @@
+/* =====================================================
+   GET ELEMENTS
+===================================================== */
+
+const homePage = document.getElementById("homePage");
+const ordersPage = document.getElementById("ordersPage");
+
+const ordersTab = document.getElementById("ordersTab");
+const stocksTab = document.getElementById("stocksTab");
+
+const backHome = document.getElementById("backHome");
+
+const homeNav = document.getElementById("homeNav");
+const tradeNav = document.getElementById("tradeNav");
+
+const searchBtn = document.getElementById("searchBtn");
+const menuBtn = document.getElementById("menuBtn");
+
+const actionButtons =
+    document.querySelectorAll(".action-btn");
+
+const orderFilters =
+    document.querySelectorAll(".order-filter");
+
+const orderCards =
+    document.querySelectorAll(".order-card");
+
+
+/* =====================================================
+   SHOW HOME
+===================================================== */
+
+function showHome() {
+
+    homePage.style.display = "block";
+
+    ordersPage.style.display = "none";
+
+    homeNav.classList.add("active");
+
+    tradeNav.classList.remove("active");
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
+
+
+/* =====================================================
+   SHOW ORDERS
+===================================================== */
+
+function showOrders() {
+
+    homePage.style.display = "none";
+
+    ordersPage.style.display = "block";
+
+    homeNav.classList.remove("active");
+
+    tradeNav.classList.add("active");
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
+
+
+/* =====================================================
+   ORDERS TAB
+===================================================== */
+
+ordersTab.addEventListener("click", function () {
+
+    showOrders();
+
+});
+
+
+/* =====================================================
+   STOCKS TAB
+===================================================== */
+
+stocksTab.addEventListener("click", function () {
+
+    showHome();
+
+});
+
+
+/* =====================================================
+   BACK BUTTON
+===================================================== */
+
+backHome.addEventListener("click", function () {
+
+    showHome();
+
+});
+
+
+/* =====================================================
+   HOME NAV
+===================================================== */
+
+homeNav.addEventListener("click", function () {
+
+    showHome();
+
+});
+
+
+/* =====================================================
+   TRADE NAV
+===================================================== */
+
+tradeNav.addEventListener("click", function () {
+
+    showOrders();
+
+});
+
+
+/* =====================================================
+   SEARCH
+===================================================== */
+
+searchBtn.addEventListener("click", function () {
+
+    showToast("البحث");
+
+});
+
+
+/* =====================================================
+   MENU
+===================================================== */
+
+menuBtn.addEventListener("click", function () {
+
+    showToast("القائمة");
+
+});
+
+
+/* =====================================================
+   QUICK ACTIONS
+===================================================== */
+
+actionButtons.forEach(function (button) {
+
+    button.addEventListener("click", function () {
+
+        const action =
+            button.dataset.action;
+
+
+        if (action === "transfer") {
+
+            showToast("تحويل / سحب");
+
+        }
+
+
+        if (action === "currency") {
+
+            showToast("تحويل العملة");
+
+        }
+
+
+        if (action === "deposit") {
+
+            showToast("إيداع");
+
+        }
+
+    });
+
+});
+
+
+/* =====================================================
+   ORDER FILTERS
+===================================================== */
+
+orderFilters.forEach(function (filter) {
+
+    filter.addEventListener("click", function () {
+
+        /* Remove active */
+
+        orderFilters.forEach(function (item) {
+
+            item.classList.remove("active");
+
+        });
+
+
+        /* Add active */
+
+        filter.classList.add("active");
+
+
+        const selectedFilter =
+            filter.dataset.filter;
+
+
+        /* ALL */
+
+        if (selectedFilter === "all") {
+
+            orderCards.forEach(function (card) {
+
+                card.style.display = "flex";
+
+            });
+
+            return;
+        }
+
+
+        /* FILTER */
+
+        orderCards.forEach(function (card) {
+
+            const status =
+                card.dataset.status;
+
+
+            if (status === selectedFilter) {
+
+                card.style.display = "flex";
+
+            } else {
+
+                card.style.display = "none";
+
+            }
+
+        });
+
+    });
+
+});
+
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+function showToast(message) {
+
+    const oldToast =
+        document.querySelector(".toast");
+
+
+    if (oldToast) {
+
+        oldToast.remove();
+
+    }
+
+
+    const toast =
+        document.createElement("div");
+
+
+    toast.className = "toast";
+
+    toast.textContent = message;
+
+
+    document.body.appendChild(toast);
+
+
+    setTimeout(function () {
+
+        toast.remove();
+
+    }, 1800);
+
+}
+
+
+/* =====================================================
+   INITIAL PAGE
+===================================================== */
+
+showHome();
